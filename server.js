@@ -12,7 +12,12 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors()); // Uncomment if needed
+app.use(
+  cors({
+    origin: "*", // Allow all
+  })
+);
+// Uncomment if needed
 
 // Database connection
 connectDB(process.env.DBURL);
