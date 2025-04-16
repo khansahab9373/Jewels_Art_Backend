@@ -21,6 +21,9 @@ app.use(
 connectDB(process.env.DBURL);
 
 // Routes
+app.get("/", (req, res) => {
+  res.send("API is running..."); // Test route
+});
 app.use("/user", userRoutes); // Use user routes
 
 app.listen(process.env.PORT, () => {
