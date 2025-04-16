@@ -1,5 +1,5 @@
 import { createUser, getUserByEmail } from "../services/userServices.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 // Signup handler
 const signupUser = async (req, res) => {
@@ -10,7 +10,11 @@ const signupUser = async (req, res) => {
   }
 
   try {
-    await createUser({ name, phone, email, dob, password });
+    // Hash the password before saving
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    await createUser({ name, phone, email, dob, password: hashedPassword });
     res.status(200).json({ message: "User created successfully" });
   } catch (err) {
     res
@@ -25,21 +29,18 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Fetch user by email
     const user = await getUserByEmail(email);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Compare provided password with the stored hashed password
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // If successful, send a response (or a token if needed)
     res.status(200).json({
       message: "Login successful",
       user: { email: user.email, name: user.name },
@@ -52,5 +53,4 @@ const loginUser = async (req, res) => {
   }
 };
 
-// Combined export
 export { signupUser, loginUser };
