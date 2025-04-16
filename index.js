@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: ["http://localhost:5000", "https://jevels-art-frontend.vercel.app"],
+    origin: "*",
   })
 );
 
