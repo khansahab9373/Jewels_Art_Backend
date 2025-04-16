@@ -21,7 +21,7 @@ app.use(
 connectDB(process.env.DBURL);
 
 // Routes
-app.use("/", userRoutes); // Use user routes
+app.use("/user", userRoutes); // Use user routes
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`); // Log server start message
