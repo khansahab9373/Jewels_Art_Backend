@@ -23,6 +23,6 @@ connectDB(process.env.DBURL);
 // Routes
 app.use("/", userRoutes); // Use user routes
 
-app.listen(8000, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`); // Log server start message
 });
